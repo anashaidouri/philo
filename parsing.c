@@ -6,17 +6,17 @@
 /*   By: ahaidour <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:28:26 by ahaidour          #+#    #+#             */
-/*   Updated: 2023/07/08 15:34:05 by ahaidour         ###   ########.fr       */
+/*   Updated: 2023/07/09 18:13:17 by ahaidour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	check_args(int ac, char **av)
+void	check_args(int ac, char **av)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (i < ac)
 	{
 		i++;
