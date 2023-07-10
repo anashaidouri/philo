@@ -6,7 +6,7 @@
 #    By: ahaidour <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/08 15:30:15 by ahaidour          #+#    #+#              #
-#    Updated: 2023/07/08 15:31:11 by ahaidour         ###   ########.fr        #
+#    Updated: 2023/07/10 18:21:30 by ahaidour         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
-SRC = philo.c parsing.c
+SRC = philo.c parsing.c utils.c
 
 OBJ = $(SRC:.c=.o)
 
