@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaidour <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ahaidour <ahaidour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:22:28 by ahaidour          #+#    #+#             */
-/*   Updated: 2023/07/10 18:54:11 by ahaidour         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:15:02 by ahaidour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,13 @@ typedef struct t_info
 	int time_to_die;
 	int time_to_eat;
 	int time_to_sleep;
+	int is_given_max;
+	int max_eaten;
 }			t_info;
 
 void 		retour_erreur(char *str);
 void		arg_check(int ac, char **av);
-long int	ft_atoi(char *str);
+long int	ft_atoi(const char *str);
+int			is_digit(char *str);
 
 #endif

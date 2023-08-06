@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahaidour <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ahaidour <ahaidour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 18:20:52 by ahaidour          #+#    #+#             */
-/*   Updated: 2023/07/10 18:53:47 by ahaidour         ###   ########.fr       */
+/*   Updated: 2023/08/06 19:13:53 by ahaidour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,49 +36,53 @@ void	ft_printerror(char *s)
 	exit(1);
 }
 
-static int	check1(char *str)
+int	if_digit(char c)
 {
-	int	i;
+	return (c >= '0' && c <= '9');
+}
 
+int	check(const char *str, long int nb, int isneg, int i)
+{
+	if ((nb * 10 + str[i] - 48 < nb) && (isneg == 1))
+		return (-1);
+	if ((nb * 10 + str[i] - 48 + 1 < nb) && (isneg == -1))
+		return (-1);
+	return (1);
+}
+
+int	check_dupl_signs(const char *str, int i)
+{
+	if (((str[i] == '+' || str[i] == '-') && (str[i + 1] == '+' || str[i
+					+ 1] == '-' || str[i + 1] == '\0')))
+		return (-1);
+	if (str[i] == '-')
+		return (-1);
+	return (1);
+}
+
+long int	ft_atoi(const char *str)
+{
+	long int	nb;
+	int			isneg;
+	int			i;
+
+	nb = 0;
+	isneg = 1;
 	i = 0;
-	while (str && (str[i] == 32 || (str[i] >= 9 && str[i] <= 13)))
+	while (str[i] == 32 || str[i] == '\t')
 		i++;
-	return (i);
-}
-
-static int	check2(char *str, int i, int *s)
-{
-	if (str && (str[i] == '-' || str[i] == '+'))
+	if (check_dupl_signs(str, i) < 0)
+		return (-1);
+	if (str[i] == '+')
+		i++;
+	else if (str[i] == '-')
+		return (-1);
+	while (if_digit(str[i]))
 	{
-		if (str[i + 1] == '-' || str[i + 1] == '+' || str[i + 1] == '\0')
-			ft_printerror("Error");
-		if (str[i] == '-')
-			*s = -(*s);
+		if (check(str, nb, isneg, i) < 0)
+			return (-1);
+		nb = nb * 10 + str[i] - 48;
 		i++;
 	}
-	return (i);
-}
-
-long int	ft_atoi(char *str)
-{
-	int		i;
-	int		s;
-	long	r;
-
-	s = 1;
-	r = 0;
-	i = check1(str);
-	i = check2(str, i, &s);
-	while (str && str[i] >= '0' && str[i] <= '9')
-	{
-		if (r * 10 + str[i] - 48 < r && s == -1)
-			ft_printerror("Error");
-		else if (r * 10 + str[i] - 48 < r && s == 1)
-			ft_printerror("Error");
-		r = r * 10 + str[i] - 48;
-		i++;
-	}
-	if (str && (str[i] == '-' || str[i] == '+'))
-		ft_printerror("Error");
-	return (r * s);
+	return (nb * isneg);
 }
