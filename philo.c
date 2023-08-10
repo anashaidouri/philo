@@ -6,7 +6,7 @@
 /*   By: ahaidour <ahaidour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:22:08 by ahaidour          #+#    #+#             */
-/*   Updated: 2023/08/10 17:04:56 by ahaidour         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:35:33 by ahaidour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void initialize_mutexes(t_info *infos) {
     pthread_mutex_init(&infos->print_mutex, NULL);
     pthread_mutex_init(&infos->read_mutex, NULL);
     pthread_mutex_init(&infos->increment_mutex, NULL);
-
     int i = 0;
     while (i < infos->nb_philo) {
         if (pthread_mutex_init(&infos->forks[i], NULL) != 0) {
@@ -70,6 +69,11 @@ void destroy_mutexes(t_info *infos) {
     pthread_mutex_destroy(&infos->increment_mutex);
 }
 
+void	create_philos(t_info *infos)
+{
+	infos->init_time = get_current_time();
+	initializing_infos(infos);
+}
 
 int	main(int ac, char **av)
 {
