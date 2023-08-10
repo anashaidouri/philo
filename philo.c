@@ -6,7 +6,7 @@
 /*   By: ahaidour <ahaidour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:22:08 by ahaidour          #+#    #+#             */
-/*   Updated: 2023/08/06 19:16:03 by ahaidour         ###   ########.fr       */
+/*   Updated: 2023/08/10 17:04:56 by ahaidour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,57 @@ int	informations(t_info *info, int ac, char **av)
 	return (1);
 }
 
+long get_current_time_milliseconds(void) {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
+}
+
+void initialize_mutexes(t_info *infos) {
+    pthread_mutex_init(&infos->time_mutex, NULL);
+    pthread_mutex_init(&infos->print_mutex, NULL);
+    pthread_mutex_init(&infos->read_mutex, NULL);
+    pthread_mutex_init(&infos->increment_mutex, NULL);
+
+    int i = 0;
+    while (i < infos->nb_philo) {
+        if (pthread_mutex_init(&infos->forks[i], NULL) != 0) {
+            retour_erreur("Failed to initialize mutex");
+            // Handle error as needed
+        }
+        i++;
+    }
+}
+
+void destroy_mutexes(t_info *infos) {
+    int i = 0;
+    while (i < infos->nb_philo) {
+        pthread_mutex_destroy(&infos->forks[i]);
+        // Handle any potential error, if necessary
+        i++;
+    }
+    pthread_mutex_destroy(&infos->print_mutex);
+    pthread_mutex_destroy(&infos->time_mutex);
+    pthread_mutex_destroy(&infos->read_mutex);
+    pthread_mutex_destroy(&infos->increment_mutex);
+}
+
+
 int	main(int ac, char **av)
 {
-	t_info *infos = NULL;
+	t_info infos;
 	if (ac == 5 || ac == 6)
 	{
 		arg_check(ac, av);
-		
-		if (!informations(infos, ac, av))
+		if (informations(&infos, ac, av))
 		{
-			retour_erreur("Error");
+			initialize_mutexes(&infos);
+			// create_philos(&infos);
+			sleep(1);
+			destroy_mutexes(&infos);
 		}
-		printf("nb philos %d\n", infos->nb_philo);
-		printf("time_to_die %d\n", infos->time_to_die);
-		printf("time_to_eat %d\n", infos->time_to_eat);
-		printf("time_to_sleep %d\n", infos->time_to_sleep);
-		printf("is_given_max %d\n", infos->is_given_max);
-		printf("max_eaten %d\n", infos->max_eaten);
+		else
+			retour_erreur("Error");
 		
 	}
 	else
