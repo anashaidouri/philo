@@ -6,7 +6,7 @@
 /*   By: ahaidour <ahaidour@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/08 15:22:08 by ahaidour          #+#    #+#             */
-/*   Updated: 2023/08/12 13:54:53 by ahaidour         ###   ########.fr       */
+/*   Updated: 2023/08/12 14:49:30 by ahaidour         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,21 @@ void	ft_sleep(int time_to_eat)
 // 	}
 // }
 
+void message(t_philo *philo, char *str, int i)
+{
+    pthread_mutex_lock(&philo->infos->print_mutex);
+    if (i) {
+        printf("%ld %d %s\n", get_time_in_millisecond() - philo->infos->init_time,
+               philo->id + 1, str);
+        printf("********* %d\n", i);
+    } else {
+        printf("%ld %d %s\n", get_time_in_millisecond() - philo->infos->init_time,
+               philo->id + 1, str);
+        exit(0);
+    }
+    pthread_mutex_unlock(&philo->infos->print_mutex);
+}
+
 void	*routine(void *arg)
 {
 	t_philo	*philo;
@@ -104,9 +119,9 @@ void	*routine(void *arg)
 	while (1)
 	{
 		// eating(philo);
-		// print_message(philo, "is sleeping", 1);
+		message(philo, "is sleeping", 1);
 		ft_sleep(philo->args->time_to_sleep);
-		// print_message(philo, "is thinking", 1);
+		message(philo, "is thinking", 1);
 	}
 }
 
